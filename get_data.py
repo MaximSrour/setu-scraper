@@ -1,3 +1,7 @@
+"""
+This script scrapes the data from the Monash University SETU website and outputs it to a CSV file.
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import csv
