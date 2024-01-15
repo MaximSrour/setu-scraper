@@ -17,6 +17,9 @@ class Table:
         self.mean = mean
         self.median = median
 
+    def get_data(self):
+        return [self.table_name, self.sa, self.a, self.n, self.d, self.sd, self.mean, self.median]
+
 def get_html(url: str) -> BeautifulSoup:
     """
     Makes a request to the specified URL and returns the response.
@@ -141,11 +144,13 @@ def tranform_html_to_data(url: str) -> list:
 
     report_blocks = soup.find_all('div', class_='report-block')[1:3]
 
+    header_results = get_report_details(soup)
+
     for table in get_tables_from_report(report_blocks[0]):
-        output.append([*get_report_details(soup), "U", table.table_name, table.sa, table.a, table.n, table.d, table.sd, table.mean, table.median])
+        output.append([*header_results, "U", *table.get_data()])
 
     for table in get_tables_from_report(report_blocks[1]):
-        output.append([*get_report_details(soup), "F", table.table_name, table.sa, table.a, table.n, table.d, table.sd, table.mean, table.median])
+        output.append([*header_results, "F", *table.get_data()])
 
     return output
 
