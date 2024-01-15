@@ -51,13 +51,14 @@ def get_report_details(document: BeautifulSoup):
     @returns {tuple} - A tuple containing the unit code, year, semester, and campus
     """
 
-    # Find the first div with class "report-block"
+    # Isolate the data
     report_block_div = document.find('div', class_='report-block')
     report_trs = report_block_div.find("table").find_all("tr")
 
     offering_list = report_trs[3].text.split("_")
     timeframe_list = [x for x in report_trs[1].text.split(" ") if x.strip()]
 
+    # Extract the relevant data from the source
     unit = offering_list[0]
     year = timeframe_list[3]
     semester = timeframe_list[1][0] + timeframe_list[2]
@@ -77,12 +78,7 @@ def get_tables_from_report(report_block):
     @returns {list} - A list of tables
     """
 
-    # Find the parent div with class "FrequencyBlockRow"
     parent_divs = report_block.find_all('div', class_='FrequencyBlockRow')
-
-    internal_divs = []
-    for parent_div in parent_divs:
-        internal_divs.extend(parent_div.find_all('div', class_='FrequencyBlock_HalfMain'))
 
     # For each div with class "FrequencyBlock_HalfMain", save the text in the div "FrequencyQuestionTitle" in an object. Save each object in a list. Save this list as a CSV file.
     tables = []
@@ -103,13 +99,13 @@ def create_table(container: BeautifulSoup) -> Table:
 
     block_table_divs = container.find_all('table', class_='block-table')
 
+    # Extract mean and median from stats table
     statsTRs = block_table_divs[1].find('tbody').find_all('tr')
     mean = statsTRs[1].find('td').text
     median = statsTRs[2].find('td').text
 
+    # Extract aspect counts from counts table
     countsTRs = block_table_divs[0].find('tbody').find_all('tr')
-
-    # For each tr in countsTRs, find the th tag text to determine which aspect this refers to. Then, get the value of the second TD
     counts = dict()
     for tr in countsTRs:
         aspect = tr.find('th').text
@@ -163,7 +159,7 @@ def get_user_url_inputs() -> str:
     urls = []
 
     while True:
-        url = input("Enter a URL: ")
+        url = input("Enter a URL (leave empty to end): ")
 
         if url == "":
             break
@@ -175,19 +171,22 @@ def get_user_url_inputs() -> str:
 def main():
     urls = get_user_url_inputs()
 
-    data = []
-    for url in urls:
-        try:
-            data.extend(tranform_html_to_data(url))
-        except:
-            print("Error parsing URL: " + url)
-
     with open("output.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["unit", "year", "semester", "campus", "aspect_type", "aspect", "strongly agree", "agree", "neutral", "disagree", "strongly disagree", "mean", "median"])
 
-        for row in data:
-            writer.writerow(row)
+    for url in urls:
+        try:
+            data = tranform_html_to_data(url)
+
+            with open("output.csv", "a", newline="") as file:
+                writer = csv.writer(file)
+                
+                for row in data:
+                    writer.writerow(row)
+
+        except:
+            print("Error parsing URL: " + url)
 
 if __name__ == "__main__":
     main()
