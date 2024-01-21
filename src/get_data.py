@@ -85,11 +85,8 @@ def get_tables_from_report(blocks: list):
     """
 
     tables = []
-    for block in blocks:
-        try:
-            title = block.find('div', class_='FrequencyQuestionTitle').find("span", class_="question-index").text
-        except Exception as e:
-            title = ""
+    for i, block in enumerate(blocks):
+        title = str(i + 1)
 
         table_divs = block.find_all('table')
 
@@ -211,7 +208,7 @@ def main():
 
     with open(PATH_ASPECT_DATA, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["unit", "year", "semester", "campus", "mode", "aspect_type", "aspect", "strongly agree", "agree", "neutral", "disagree", "strongly disagree", "mean", "median"])
+        writer.writerow(["unit", "year", "semester", "campus", "mode", "aspect_type", "aspect", "strong_agree", "agree", "neutral", "disagree", "strong_disagree", "mean", "median"])
 
     for url_object in url_objects:
         print(f"Working on {url_object[1]}...")
