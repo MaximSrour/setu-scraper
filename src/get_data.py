@@ -5,7 +5,9 @@ This script scrapes the SETU data from the Monash SETU site, using links provide
 import os
 import csv
 import requests
+from tqdm import tqdm
 from bs4 import BeautifulSoup
+from config import CAMPUS_MAPPING
 
 from config import DIR_FILTERED_LINKS, DIR_OUTPUT
 PATH_ASPECT_DATA = os.path.join(DIR_OUTPUT, "aspectData.csv")
@@ -55,16 +57,7 @@ def get_report_details(url_object: tuple):
     unit = url_object[1].split("_")[0]
     year = url_object[0].split("_")[0]
     semester = url_object[1].split("_")[-1].split("-")[0]
-    match(url_object[1].split("_")[1]):
-        case "CLAYTON":
-            campus = "CL"
-        case "MALAYSIA":
-            campus = "MA"
-        case "CAULFIELD":
-            campus = "CA"
-        case _:
-            campus = ""
-            print(f"Unknown campus: {url_object[1].split('_')[1]}")
+    campus = CAMPUS_MAPPING[url_object[1].split("_")[1]]
     mode = url_object[1].split("_")[2]
     
     # Get the title from the document, provided it exists
@@ -210,8 +203,14 @@ def main():
         writer = csv.writer(file)
         writer.writerow(["unit", "year", "semester", "campus", "mode", "aspect_type", "aspect", "strong_agree", "agree", "neutral", "disagree", "strong_disagree", "mean", "median"])
 
-    for url_object in url_objects:
-        print(f"Working on {url_object[1]}...")
+    count = 0
+    pbar = tqdm(url_objects)
+    for url_object in pbar:
+        count += 1
+        if count < 18950:
+            continue
+
+        pbar.set_description(f"{url_object[0]} {url_object[1]}")
 
         try:
             offering = get_report_details(url_object)
@@ -233,7 +232,6 @@ def main():
         except Exception as e:
             print(e)
             print("Error parsing URL Object: " + " - ".join(url_object))
-            break
 
 if __name__ == "__main__":
     main()

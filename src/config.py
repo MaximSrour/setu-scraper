@@ -20,7 +20,7 @@ generate_dir(DIR_RAW_LINKS)
 generate_dir(DIR_FILTERED_LINKS)
 
 SEMESTERS = {
-    "2023_other": "https://monash.bluera.com/monash/rpvl.aspx?rid=caa302c2-ba58-4ef8-978f-369208ca3716&regl=en-US",
+    "2023_other": "https://monash.bluera.com/monash/rpvl.aspx?rid=5936ffd9-90dc-444c-9538-fe71c344720b&regl=en-US",
     "2023_s2": "https://monash.bluera.com/monash/rpvl.aspx?rid=8da682a1-c771-41c2-9bb1-1becb27b1ad0&regl=en-US",
     "2023_s1": "https://monash.bluera.com/monash/rpvl.aspx?rid=136f4382-7657-4913-b11b-15deb5b8d462&regl=en-US",
     "2022_other": "https://monash.bluera.com/monash/rpvl.aspx?rid=75af4287-7a33-414d-9750-0d2aefe11000&regl=en-US",
@@ -43,4 +43,30 @@ SEMESTERS = {
     "2017_s1": "https://monash.bluera.com/monash/rpvl.aspx?rid=c8b26628-12b3-44da-8ce7-91a50d45cdaa&regl=en-US",
     "2016_other": "https://monash.bluera.com/monash/rpvl.aspx?rid=1dc10fc3-04a3-4647-ae42-d84267314541&regl=en-US",
     "2016_s2": "https://monash.bluera.com/monash/rpvl.aspx?rid=76c58866-ab40-4b7d-879e-6a1f252f5cd7&regl=en-US",
+}
+
+CAMPUS_MAPPING = {
+    "CLAYTON": "CL",
+    "CAULFIELD": "CA",
+    "MALAYSIA": "MA",
+    "PARKVILLE": "PA",
+    "PENINSULA": "PE",
+    "BERWICK": "BE",
+    "CITY": "CBD",
+    "SOUTHBANK": "SB",
+    "NOTT HILL": "NH",
+    "ALFRED": "AL",
+    "MMS-ALFRED": "MMS",
+    "MMC": "MMC",
+    "GIPPSLAND": "GI",
+    "SAFRICA": "SA",
+    "PRATO": "PR",
+    "MC-JAKARTA": "JA",
+    "OS-SLA-CMB": "SLA",
+    "OS-CHI-SEU": "SEU",
+    "OS-SGP": "SGP",
+    "OS-HKG": "HKG",
+    "OTHER-OS": "OS",
+    "ONLINE": "ON",
+    "MOE": "MOE"
 }
