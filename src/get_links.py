@@ -28,7 +28,7 @@ def get_driver() -> webdriver:
     #options.headless = True # preferred true, but false is nice to monitor progress visually
     options.add_argument("--disable-gpu") # TODO: check if this is actually necessary
     options.add_argument("-profile")
-    options.add_argument("/home/msrour/snap/firefox/common/.mozilla/firefox/1fdc0a4l.default")
+    options.add_argument("/home/maxim/snap/firefox/common/.mozilla/firefox/n6wbpn07.default")
 
     options.set_preference("dom.webdriver.enabled", False)
     options.set_preference("useAutomationExtension", False)
