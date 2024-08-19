@@ -5,6 +5,7 @@ This script scrapes the SETU data from the Monash SETU site, using links provide
 import os
 import csv
 import requests
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 
 from config import DIR_FILTERED_LINKS, DIR_OUTPUT
@@ -210,8 +211,10 @@ def main():
         writer = csv.writer(file)
         writer.writerow(["unit", "year", "semester", "campus", "mode", "aspect_type", "aspect", "strong_agree", "agree", "neutral", "disagree", "strong_disagree", "mean", "median"])
 
-    for url_object in url_objects:
-        print(f"Working on {url_object[1]}...")
+
+    pbar = tqdm(url_objects)
+    for url_object in pbar:
+        pbar.set_description(f"{url_object[0]} {url_object[1]}")
 
         try:
             offering = get_report_details(url_object)
