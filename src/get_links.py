@@ -47,7 +47,7 @@ def wait_for_page_load(driver: webdriver, max_delay: int) -> None:
     """
 
     try:
-        WebDriverWait(driver, max_delay).until(EC.presence_of_element_located((By.ID, "ctl00_headerImage")))
+        WebDriverWait(driver, max_delay).until(EC.presence_of_element_located((By.ID, "blueOcean_content")))
     except TimeoutException:
         print("Loading took too much time!")
         exit(1)

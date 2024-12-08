@@ -7,7 +7,7 @@ import os
 # open the csv and filter only a certain subset of rows that contain any unit code in a list, UNITCODES
 # output the filtered data to a new csv file, key_filtered.csv in the filter dir
 
-UNITCODES = ["FIT1008", "FIT1054", "FIT1033", "FIT1045", "FIT1053", "FIT1073", "FIT2073", "FIT2096", "FIT5057"]
+UNITCODES = ["FIT1008", "FIT1054", "FIT1033", "FIT1045", "FIT1053", "FIT1073", "FIT2002", "FIT2073", "FIT2096", "FIT5057", "FIT9136"]
 #UNITCODES = ["FIT1045"]
 
 DIR_RAW_LINKS
@@ -25,6 +25,9 @@ for semester_key in SEMESTERS:
         csv_reader = csv.reader(input_file)
         csv_writer = csv.writer(output_file)
 
-        for row in csv_reader:
-            if any(unit_code in row[0] for unit_code in UNITCODES):
-                csv_writer.writerow(row)
+        for i, row in enumerate(csv_reader):
+            if i == 0:
+                continue
+            
+            # if any(unit_code in row[0] for unit_code in UNITCODES):
+            csv_writer.writerow(row)
