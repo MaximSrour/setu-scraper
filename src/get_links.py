@@ -12,9 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 
-from config import SEMESTERS, DIR_RAW_LINKS
-
-BASE_URL = "https://monash.bluera.com/monash/"
+from config import get_semester_links, setup, DIR_RAW_LINKS, BASE_URL
 
 def get_driver() -> webdriver:
     """
@@ -161,12 +159,15 @@ def main():
     
     @returns {None}
     """
+    setup()
+
+    semester_links = get_semester_links()
 
     driver = get_driver()
 
-    for semester in SEMESTERS:
+    for semester in semester_links:
         print(f"Processing {semester}...")
-        run_driver(driver, SEMESTERS[semester], f"{semester}.csv")
+        run_driver(driver, semester_links[semester], f"{semester}.csv")
 
     driver.quit()
 

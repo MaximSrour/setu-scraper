@@ -8,7 +8,7 @@ import requests
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 
-from config import DIR_FILTERED_LINKS, DIR_OUTPUT
+from config import DIR_FILTERED_LINKS, DIR_OUTPUT, DIR_HTML
 PATH_ASPECT_DATA = os.path.join(DIR_OUTPUT, "aspectData.csv")
 PATH_OFFERINGS = os.path.join(DIR_OUTPUT, "offerings.csv")
 
@@ -34,8 +34,29 @@ def get_html(url: str) -> BeautifulSoup:
     @returns {BeautifulSoup} - The response from the request
     """
 
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    # Get the local ID from the URL
+    # e.g., https://monash.bluera.com/monash/rpv-eng.aspx?lang=eng&redi=1&SelectedIDforPrint=5debb6e0f8e2043c46d8a3634796f652b0ad43131edf4adde9149182f90cd98889a41fa8bcb107ce852ed5ee83476a04&ReportType=2&regl=en-US&IsReportLandscape=False,
+    # the local ID is 5debb6e0f8e2043c46d8a3634796f652b0ad43131edf4adde9149182f90cd98889a41fa8bcb107ce852ed5ee83476a04
+    local_id = url.split("SelectedIDforPrint=")[1].split("&")[0]
+
+    file_path = os.path.join(DIR_HTML, f"{local_id}.html")
+    
+    # Check if the HTML file exists in the local dir
+
+    # If it does, read the file
+    if os.path.exists(file_path):
+        with open(file_path, "r") as file:
+            html = file.read()
+
+    # If it doesn't, make a request to the URL and save the HTML to the local dir
+    else:
+        response = requests.get(url)
+        html = response.text
+
+        with open(file_path, "w") as file:
+            file.write(html)
+
+    soup = BeautifulSoup(html, 'html.parser')
 
     return soup
 
