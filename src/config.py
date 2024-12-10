@@ -5,7 +5,7 @@ A source file to contain the necessary configs for all scripts
 import os
 import csv
 
-BASE_URL = "https://monash.bluera.com/monash/"
+BASE_URL = "https://my-monash-bc.bluera.com/"
 
 DIR_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIR_OUTPUT = os.path.join(DIR_ROOT, "output")
@@ -37,6 +37,8 @@ def setup():
     generate_dir(DIR_HTML)
 
 if __name__ == "__main__":
+    setup()
+
     links = get_semester_links()
 
     for semester, link in links.items():

@@ -1,4 +1,4 @@
-from config import SEMESTERS, DIR_RAW_LINKS, DIR_FILTERED_LINKS
+from config import get_semester_links, DIR_RAW_LINKS, DIR_FILTERED_LINKS
 import csv
 import os
 
@@ -16,7 +16,9 @@ DIR_FILTERED_LINKS
 if not os.path.exists("filter"):
     os.makedirs("filter")
 
-for semester_key in SEMESTERS:
+semesters = get_semester_links()
+
+for semester_key in semesters:
     filename = f"{semester_key}.csv"
     output_filepath = f"{DIR_RAW_LINKS}/{filename}"
     filter_filepath = f"{DIR_FILTERED_LINKS}/{semester_key}_filtered.csv"
